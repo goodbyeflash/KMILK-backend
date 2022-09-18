@@ -1,9 +1,18 @@
+import Event1 from '../../models/event1.js';
+import Event2 from '../../models/event2.js';
 import excel from 'exceljs';
 
 export const download = async (ctx) => {
-  const { columns, rows } = ctx.request.body;
-
+  const { columns, type } = ctx.request.body;
+  let rows;
   let rowArray = [];
+
+  if (type == 'event1') {
+    rows = await Event1.find({}).exec();
+  } else if (type == 'event2') {
+    rows = await Event2.find({}).exec();
+  }
+
   rows.forEach((row) => {
     row.publishedDate = new Date(row.publishedDate).YYYYMMDDHHMMSS();
     rowArray.push(row);
