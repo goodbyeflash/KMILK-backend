@@ -62,7 +62,7 @@ const port = PORT || 80;
 
 if (NODE_ENV == "production") {
   const config = {
-    domain: 'www.kmilkevent.co.kr',
+    domain: 'kmilkevent.co.kr',
     https: {
       port: port,
       options: {
