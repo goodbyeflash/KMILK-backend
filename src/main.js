@@ -32,23 +32,20 @@ app.use(serve('../frontend/build'));
 // 라우터 설정
 router.use('/api', api.routes()); // api 라우트 적용
 
-// app.use(async (ctx, next) => {
-//   const corsWhitelist = [
-//     'http://localhost:8080',
-//     //'http://www.publicdesign.co.kr',
-//   ];
-//   if (corsWhitelist.indexOf(ctx.request.headers.origin) !== -1) {
-//     ctx.set('Access-Control-Allow-Origin', ctx.request.headers.origin);
-//     ctx.set(
-//       'Access-Control-Allow-Headers',
-//       'Origin, X-Requested-With, Content-Type, Accept, Set-Cookie, Last-Page',
-//     );
-//     ctx.set('Access-Control-Allow-Methods', 'POST, GET, DELETE, PATCH');
-//     ctx.set('Access-Control-Allow-Credentials', true);
-//     ctx.set('Access-Control-Expose-Headers', 'Last-Page');
-//   }
-//   await next();
-// });
+app.use(async (ctx, next) => {
+  const corsWhitelist = ['http://localhost:8080', 'https://kmilkevent.co.kr'];
+  if (corsWhitelist.indexOf(ctx.request.headers.origin) !== -1) {
+    ctx.set('Access-Control-Allow-Origin', ctx.request.headers.origin);
+    ctx.set(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept, Set-Cookie, Last-Page',
+    );
+    ctx.set('Access-Control-Allow-Methods', 'POST, GET, DELETE, PATCH');
+    ctx.set('Access-Control-Allow-Credentials', true);
+    ctx.set('Access-Control-Expose-Headers', 'Last-Page');
+  }
+  await next();
+});
 
 // 라우터 적용 전에 bodyParser 적용
 app.use(bodyParser());
@@ -60,7 +57,7 @@ app.use(router.routes()).use(router.allowedMethods());
 // // PORT가 지정되어 있지 않다면 80을 사용
 const port = PORT || 80;
 
-if (NODE_ENV == "production") {
+if (NODE_ENV == 'production') {
   const config = {
     domain: 'kmilkevent.co.kr',
     https: {
