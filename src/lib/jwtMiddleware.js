@@ -2,13 +2,13 @@ import jwt from 'jsonwebtoken';
 import Admin from '../models/admin';
 
 const jwtMiddleware = async (ctx, next) => {
+  
   const token = ctx.cookies.get('access_token');
   if (!token) return next(); // 토큰이 없음
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     ctx.state.admin = {
-      id: decoded.id,
-      type: decoded.type,
+      id: decoded.id
     };
 
     // 토큰의 남은 유효 기간이 3.5일 미만이면 재발급

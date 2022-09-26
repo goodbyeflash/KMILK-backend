@@ -8,5 +8,6 @@ event1.get('/', checkLoggedIn, event1Ctrl.list);
 event1.post('/', event1Ctrl.write);
 event1.post('/find', checkLoggedIn, event1Ctrl.find);
 event1.delete('/:_id', checkLoggedIn, event1Ctrl.remove);
+event1.get('/count', event1Ctrl.count);
 
 export default event1;

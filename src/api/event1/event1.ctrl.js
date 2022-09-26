@@ -1,6 +1,7 @@
 import Event1 from '../../models/event1';
 import Joi from '@hapi/joi';
 import requsetIp from 'request-ip';
+import moment from 'moment';
 
 /*
   GET /api/event1?page=
@@ -87,13 +88,23 @@ export const write = async (ctx) => {
 /*
   POST /api/event1/find?page=
   {
+    "dateGte" : "2022-08-11",
+    "dateLt" : "2022-08-13",
     "name" : "김"
   }
 */
 export const find = async (ctx) => {
   const body = ctx.request.body || {};
+
+  if (body.dateGte && body.dateLt) {
+    body['publishedDate'] = {
+      $gte: moment(body.dateGte).startOf('day').format(),
+      $lt: moment(body.dateLt).endOf('day').format(),
+    };
+  }
+
   if (Object.keys(body).length > 0) {
-    const key = Object.keys(body)[0];
+    const key = Object.keys(body)[2];
     body[key] = { $regex: '.*' + body[key] + '.*' };
   }
   const page = parseInt(ctx.query.page || '1', 10);
@@ -127,5 +138,17 @@ export const remove = async (ctx) => {
     ctx.status = 204; // No Content (성공하기는 했지만 응답할 데이터는 없음)
   } catch (error) {
     ctx.throw(500, error);
+  }
+};
+
+/*
+  GET /api/event1/count  
+ */
+export const count = async (ctx) => {
+  try {
+    const totalCount = await Event1.count({});
+    ctx.body = totalCount;
+  } catch (e) {
+    ctx.throw(500, e);
   }
 };

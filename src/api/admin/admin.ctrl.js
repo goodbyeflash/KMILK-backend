@@ -12,7 +12,7 @@ export const getAdminById = async (ctx, next) => {
   }
   try {
     const admin = await Admin.findById(id);
-    // 선생이 존재하지 않을 때
+    // 관리자가 존재하지 않을 때
     if (!admin) {
       ctx.status = 404; // Not Found
       return;
@@ -76,7 +76,6 @@ export const register = async (ctx) => {
     await admin.save(); // 데이터베이스에 저장
 
     // 응답할 데이터에서 hashedPassword 필드 제거
-
     ctx.body = admin.serialize();
 
     const token = admin.generateToken();

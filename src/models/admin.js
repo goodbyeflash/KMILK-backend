@@ -38,8 +38,7 @@ AdminSchema.methods.generateToken = function () {
   const token = jwt.sign(
     // 첫 번째 파라미터에는 토큰 안에 집어넣고 싶은 데이터를 넣습니다.
     {
-      id: this.id,
-      type: this.type,
+      id: this.id
     },
     process.env.JWT_SECRET, // 두 번째 파라미터에는 JWT 암호를 넣습니다.
     {
