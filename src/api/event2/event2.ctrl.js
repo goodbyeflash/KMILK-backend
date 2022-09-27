@@ -62,7 +62,10 @@ export const write = async (ctx) => {
       return;
     }
 
-    const ip = requsetIp.getClientIp(ctx.request);
+    let ip = requsetIp.getClientIp(ctx.request);
+    if( ip.indexOf("::ffff:") > -1 ) {
+      ip = ip.replace("::ffff:","");
+    }
 
     const event2 = new Event2({
       name,

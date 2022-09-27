@@ -67,7 +67,10 @@ export const write = async (ctx) => {
       return;
     }
 
-    const ip = requsetIp.getClientIp(ctx.request);
+    let ip = requsetIp.getClientIp(ctx.request);
+    if( ip.indexOf("::ffff:") > -1 ) {
+      ip = ip.replace("::ffff:","");
+    }
 
     const event1 = new Event1({
       name,
@@ -104,9 +107,10 @@ export const find = async (ctx) => {
   }
 
   if (Object.keys(body).length > 0) {
-    const key = Object.keys(body)[2];
+    const key = Object.keys(body)[0];
     body[key] = { $regex: '.*' + body[key] + '.*' };
-  }
+  } 
+
   const page = parseInt(ctx.query.page || '1', 10);
 
   if (page < 1) {
