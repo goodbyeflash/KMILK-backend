@@ -43,6 +43,7 @@ export const write = async (ctx) => {
     name: Joi.string().required(), // required()가 있으면 필수 항목
     hp: Joi.string().required(),
     privacy: Joi.string().required(),
+    publishedDate: Joi.date().required(),
   });
 
   // 검증하고 나서 검증 실패인 경우 에러 처리
@@ -52,7 +53,7 @@ export const write = async (ctx) => {
     ctx.body = result.error;
     return;
   }
-  const { name, hp, privacy } = ctx.request.body;
+  const { name, hp, privacy, publishedDate } = ctx.request.body;
 
   try {
     // hp가 이미 존재하는지 확인
@@ -72,6 +73,7 @@ export const write = async (ctx) => {
       hp,
       privacy,
       ip,
+      publishedDate,
     });
 
     await event2.save();

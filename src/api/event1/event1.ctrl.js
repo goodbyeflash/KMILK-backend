@@ -47,6 +47,7 @@ export const write = async (ctx) => {
     address: Joi.string().required(),
     url: Joi.string().required(),
     privacy: Joi.string().required(),
+    publishedDate: Joi.date().required(),
   });
 
   // 검증하고 나서 검증 실패인 경우 에러 처리
@@ -57,7 +58,7 @@ export const write = async (ctx) => {
     return;
   }
 
-  const { name, hp, address, url, privacy } = ctx.request.body;
+  const { name, hp, address, url, privacy, publishedDate } = ctx.request.body;
 
   try {
     // hp가 이미 존재하는지 확인
@@ -79,6 +80,7 @@ export const write = async (ctx) => {
       url,
       privacy,
       ip,
+      publishedDate,
     });
 
     await event1.save();

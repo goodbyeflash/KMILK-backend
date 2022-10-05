@@ -8,10 +8,11 @@ const event1Schema = new Schema({
   url: String,
   privacy: String,
   ip: String,
-  publishedDate: {
-    type: Date,
-    default: moment().format(),
-  },
+  // publishedDate: {
+  //   type: Date,
+  //   default: moment().format(),
+  // },
+  publishedDate : Date,
 });
 
 event1Schema.statics.findByHp = function (hp) {
