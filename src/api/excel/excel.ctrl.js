@@ -14,7 +14,14 @@ export const download = async (ctx) => {
   }
 
   rows.forEach((row) => {
-    row.publishedDate = new Date(row.publishedDate).YYYYMMDDHHMMSS();
+    const publishedDate = row.publishedDate;
+    const utc =
+      publishedDate.getTime() + publishedDate.getTimezoneOffset() * 60 * 1000;
+
+    const KR_TIME_DIFF = 18 * 60 * 60 * 1000;
+    const kr_curr = new Date(utc + KR_TIME_DIFF);
+
+    row.publishedDate = kr_curr;
     rowArray.push(row);
   });
 
